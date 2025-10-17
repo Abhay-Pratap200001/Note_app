@@ -2,18 +2,21 @@ import express from 'express'
 import notesRoutes from './routes/notes.Routes.js'
 import { connectDB } from './config/db.js';
 import dotenv from 'dotenv'
+import ratelimiter from './middleware/rateLimiter.js';
 dotenv.config()
-let PORT = process.env.PORT || 2000
-
 
 const app = express();
+const PORT = process.env.PORT || 2000
 
-connectDB()
+
+
 
 app.use(express.json())
+app.use(ratelimiter)
 
 app.use("/api/notes", notesRoutes)
 
-app.listen(PORT, () => {
-console.log(`✅ Server running at http://localhost:${PORT}`);})
-
+connectDB().then(()=>{
+    app.listen(PORT, () => {
+    console.log(`✅ Server running at http://localhost:${PORT}`);})
+})    

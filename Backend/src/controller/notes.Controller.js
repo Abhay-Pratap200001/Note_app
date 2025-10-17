@@ -1,15 +1,16 @@
-
 import Note from "../model/Note.js";
 
 // Get all notes
 export const getAllNotes = async (req, res) => {
   try {
-    const notes = await Note.find({createdAt: -1});
-    res.status(200).json({ success: true, data: notes });
+    const notes = await Note.find().sort({createdAt: -1});
+    res.status(200).json(notes, { success: true, data: notes });
   } catch (error) {
     res.status(500).json({ success: false, message: "Failed to retrieve notes", error: error.message });
   }
 };
+
+
 
 // Create a new note
 export const createNote = async (req, res) => {
@@ -28,6 +29,8 @@ export const createNote = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to create note", error: error.message });
   }
 };
+
+
 
 // Update a note
 export const updateNote = async (req, res) => {
@@ -50,6 +53,8 @@ export const updateNote = async (req, res) => {
   }
 };
 
+
+
 // Delete a note
 export const deleteNotes = async (req, res) => {
   try {
@@ -65,6 +70,8 @@ export const deleteNotes = async (req, res) => {
   }
 };
 
+
+
 // Get note by ID
 export const getNoteById = async (req, res) => {
   try {
@@ -79,3 +86,5 @@ export const getNoteById = async (req, res) => {
     res.status(500).json({ success: false, message: "Failed to get note", error: error.message });
   }
 };
+
+
