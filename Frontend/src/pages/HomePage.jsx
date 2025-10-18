@@ -34,7 +34,9 @@ export const HomePage = () => {
     <div className="min-h-screen bg-base-100">
       <Navbar />
 
+      <div className="relative mt-[10%]">
       {isRateLimit && <RateLimitUi />}
+      </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         {loading && (
