@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import RateLimitUi from "../components/RateLimitUi";
-import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import NoteCard from "../components/NoteCard";
+import { api } from "../components/axios";
+
 
 export const HomePage = () => {
   const [isRateLimit, setIsRateLimit] = useState(false);
@@ -13,7 +14,7 @@ export const HomePage = () => {
   useEffect(() => {
     const fetchNotes = async () => {
       try {
-        const res = await axios.get('http://localhost:7000/api/notes');
+        const res = await api.get('/notes');
         console.log(res.data);
         setNotes(res.data);
         setIsRateLimit(false);
@@ -45,6 +46,7 @@ export const HomePage = () => {
           </div>
         )}
 
+
         {!isRateLimit && notes.length > 0 && (
           <>
             <h2 className="text-2xl font-bold text-base-content mb-6 text-center">
@@ -53,14 +55,14 @@ export const HomePage = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {notes.map((note) => (
-                <NoteCard key={note._id} note={note} />
+                <NoteCard key={note._id} note={note} setNotes={setNotes} />
               ))}
             </div>
           </>
         )}
 
         {!loading && !isRateLimit && notes.length === 0 && (
-          <div className="text-center text-base-content/70 py-12 text-md">
+          <div className="text-center text-base-content/70 py-60 text-4xl">
             No notes found. Try adding some!
           </div>
         )}
